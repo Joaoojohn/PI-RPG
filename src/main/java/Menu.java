@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 /*
@@ -13,10 +15,12 @@ import java.util.Scanner;
  */
 public class Menu 
 {
+    static Scanner scan = new Scanner(System.in);
+    
+    
     public static void main(String[] args) 
     
     {
-        Scanner scan = new Scanner(System.in);
         
         String opcao;
         
@@ -37,6 +41,8 @@ public class Menu
          {
              case "1":
                    System.out.println("Bora Jogar! ");
+                   Perguntas.Perguntas();
+                   
                  break;
              
              case "2":
@@ -48,10 +54,24 @@ public class Menu
                  System.out.println("João Pedro e Guilherme Piovesan ");
                  
                  break;
+                 
+             default:
+                 System.out.println("Opção Invalida!");
         } 
         
         }while (opcao.equals("4") == false);
-    
+        
     }
     
+        static void InformacaoUsu(String nome, String Classes)
+        {
+            System.out.println("Informe seu nome: ");
+            nome = scan.next();
+            
+            System.out.println("Informe sua classe desejada: ");
+            Classes = scan.next();
+        }
+        
 }
+
+
