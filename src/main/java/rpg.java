@@ -1,4 +1,9 @@
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -24,23 +29,19 @@ public class rpg
     {
  
         String opcao;
+         
+        System.out.print("*****Olá! Seja bem vindo ao Reino Hello World!*****\n\n");
+        System.out.print("|-----------------------------|\n");
+        System.out.print("| Opção 1 - Jogar             |\n");
+        System.out.print("| Opção 2 - Ranking           |\n");
+        System.out.print("| Opção 3 - Créditos          |\n");
+        System.out.print("| Opção 4 - Sair              |\n");
+        System.out.print("|-----------------------------|\n");
+        System.out.print("Digite uma opção: ");
         
-        System.out.println("Olá! Seja bem vindo ao Reino Hello World! ");
-        System.out.println("");
-        System.out.println("");
-        
-        
-            
-         System.out.println("Escolha uma das opções a seguir: ");
-        
-         System.out.println("1: Jogar");
-         System.out.println("2: Ranking");
-         System.out.println("3: Créditos");
-         System.out.println("4: Sair");
         
         do 
         {
-            
          opcao = scan.next();
 
          switch (opcao) 
@@ -52,7 +53,7 @@ public class rpg
                  break;
              
              case "2":
-                 System.out.println("Bora Jogar! ");
+                 VerR();
 
                  break;
              case "3":
@@ -72,8 +73,9 @@ public class rpg
         } 
         
         }while (opcao.equals("4") == false);
-        
     }
+    
+    
     
         static void InformacaoUsu()
         {
@@ -87,15 +89,16 @@ public class rpg
             System.out.println(nome + " agora escolha uma classe desejada: ");
             Classes = scan.next();
             
-          Perguntas(nome, Classes);
+            Perguntas(nome, Classes);
         }
         
         
         static void Perguntas(String nome, String classe)
        {
          long start = System.currentTimeMillis();
-        
          
+         int pontos = 0;
+        
          
         ArrayList<String> respos = new ArrayList<>();
       
@@ -107,10 +110,7 @@ public class rpg
           char c = ale.get(2);
           char d = ale.get(3);
           char e = ale.get(4);
-      
                   
-        
-        
         Collections.shuffle(ale);
         respos.add( a + " Do");
         respos.add( b + " While");
@@ -124,7 +124,7 @@ public class rpg
         
        do 
        {
-         System.out.println("Em nossa lingua 'SE' corresponde a qual função abaixo (utilizando letras a letra correspondente)");
+        System.out.println("Em nossa lingua 'SE' corresponde a qual função abaixo (utilizando letras a letra correspondente)");
         Collections.shuffle(ale);
         respos.add( a + " Do");
         respos.add( b + " While");
@@ -133,12 +133,6 @@ public class rpg
         respos.add( e + " Else");
         
         System.out.println(respos);
-         
-         
-         
-         
-         
-   
          resp = scan.next();
 
          switch(resp)
@@ -147,6 +141,7 @@ public class rpg
              case "C":
                  certa = true;
                  System.out.println("Resposta Correta na tentativa:  ");    
+                 pontos = 100;
                  
                  break;
                  
@@ -157,30 +152,35 @@ public class rpg
                  
         
         Collections.shuffle(ale);
-         
-      
            
         }while(resp.equals("e") || resp.equals("E")|| resp.equals("a")|| resp.equals("A")||
                resp.equals("B")|| resp.equals("b") || resp.equals("d")|| resp.equals("D"));
        
-       
          long end = System.currentTimeMillis();
            
-        tempo(start, end);
+         
+         
+         long t = tempo(start, end);
+         
        
+        Ranking(nome,t, pontos);
+       
+       VerR();
     }
         
-        
-        
-        static void tempo(long start, long end)
+        static long tempo(long start, long end)
         {
              long tempo = end - start;
              
              
              long minutos  = ( tempo / 60000 ) % 60;
              long segundos = ( tempo / 1000 ) % 60;
+             
+             
             
             System.out.println( String.format( "%02d:%02d", minutos,segundos ) );
+            
+            return minutos;
         }
         
         
@@ -242,16 +242,68 @@ public class rpg
             }
        }
       
-        ArrayList<Character> respos = new ArrayList<>();
+              ArrayList<Character> respos = new ArrayList<>();
+ 
               respos.add(a);
               respos.add(b);
               respos.add(c);
               respos.add(d);
               respos.add(e);
         
-            
+       
             
         return respos;
+        
+        }
+        
+        static void Ranking(String nome,long tempo, int pts)
+        {
+           try
+            { 
+              FileOutputStream arquivo = new FileOutputStream("ranking.txt", true); //criação do arquivo
+                   
+              PrintWriter pr = new PrintWriter(arquivo); //criar para escrever no arquivo
+                    
+              pr.println("Nome: " + nome + " Tempo: " + tempo + " Pontuação final: "+ pts);  //Escrita no Arquivo
+                     
+              pr.flush(); //Manda o Salvar no HD, sem ficar em buffer
+              pr.close(); //fecha o PrintWriter
+          
+              arquivo.close();//fecha o arquivo 
+            }
+            catch(Exception io)
+            {   
+              System.out.println("Erro ao gravar resultado do Ranking");
+            }
+        }
+
+        static void VerR ()
+        {
+            try
+            {
+                FileInputStream arquivo = new FileInputStream("ranking.txt");
+                InputStreamReader input = new InputStreamReader(arquivo);
+                
+                BufferedReader br = new BufferedReader(input);
+                
+                String linha;
+                
+                do {
+                    linha = br.readLine();
+                    
+                    if (linha != null) 
+                    {
+                        
+                        
+                        System.out.println(linha);
+                       
+                    }
+                } while (linha != null);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Falha ao ver Ranking");
+            }
         
         }
 }
