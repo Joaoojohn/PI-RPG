@@ -4,8 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -27,7 +25,6 @@ public class rpg
     
     public static void main(String[] args) 
     {
- 
         String opcao;
          
         System.out.print("*****Olá! Seja bem vindo ao Reino Hello World!*****\n\n");
@@ -38,7 +35,6 @@ public class rpg
         System.out.print("| Opção 4 - Sair              |\n");
         System.out.print("|-----------------------------|\n");
         System.out.print("Digite uma opção: ");
-        
         
         do 
         {
@@ -74,9 +70,6 @@ public class rpg
         
         }while (opcao.equals("4") == false);
     }
-    
-    
-    
         static void InformacaoUsu()
         {
             
@@ -89,86 +82,176 @@ public class rpg
             System.out.println(nome + " agora escolha uma classe desejada: ");
             Classes = scan.next();
             
-            Perguntas(nome, Classes);
+       
+            VerR();
+            
+            Jogo(nome, Classes);
+        }
+        
+        static void Jogo (String nome, String Classe)
+        {
+         int pontos = 0;
+         int [] aleatorio;
+         aleatorio = GerarAleatorio();
+         Scanner scan = new Scanner (System.in);
+        
+         long start = System.currentTimeMillis();
+        
+         for (int i = 0; i < aleatorio.length; i++) 
+         {
+             
+             System.out.println((i + 1) + ") " + MonstrarPergunta (aleatorio[i]));
+             
+             System.out.println("Informe sua resposta: ");
+             String opcao = scan.next();
+             
+             Correta(i, opcao, pontos);
+             
+         }
+         long end = System.currentTimeMillis();
+        
+         long t = tempo(start, end);
+         
+            
+        Ranking(nome,t, pontos);
+        
+        }
+      
+         static int pergu = 4;
+    
+    static String MonstrarPergunta(int pergunta)
+    {
+        String montada = "";
+        
+        montada = montada + Perguntas(pergunta); //pega as perguntas
+        montada  = montada + "\n";
+        
+        String [] opcoes = Opcoes(pergunta); //pega as opções 
+        
+        for (int i = 0; i < opcoes.length; i++) 
+        {
+             montada  = montada + (opcoes[i] + "\n"); //monta as opções
+        }
+         montada  = montada + "\n";
+         montada  = montada + "\n";
+        
+        return montada;
+        
+    }
+     static int [] GerarAleatorio()
+    {
+        Random gerar = new Random();
+        int [] Aleatorio = new int [pergu];
+        
+        
+        int pos1, pos2, auxilio;
+        
+        for (int i = 0; i < Aleatorio.length; i++) 
+        {
+            Aleatorio[1] = i ;
+        }
+        
+        for (int i = 0; i < 10; i++) 
+        {
+            pos1 = gerar.nextInt(Aleatorio.length);
+            pos2 = gerar.nextInt(Aleatorio.length);
+            //troca 
+            
+            auxilio = pos1;
+            
+            Aleatorio [pos1] = Aleatorio[pos2];
+            
+            Aleatorio[pos2] = auxilio;
         }
         
         
-        static void Perguntas(String nome, String classe)
-       {
-         long start = System.currentTimeMillis();
-         
-         int pontos = 0;
-        
-         
-        ArrayList<String> respos = new ArrayList<>();
-      
-        ArrayList<Character> ale =  Aleatorio();
-      
-        
-          char a = ale.get(0);
-          char b = ale.get(1);
-          char c = ale.get(2);
-          char d = ale.get(3);
-          char e = ale.get(4);
-                  
-        Collections.shuffle(ale);
-        respos.add( a + " Do");
-        respos.add( b + " While");
-        respos.add( c + " If");
-        respos.add( d + " For");
-        respos.add( e + " Else");
-        
-        String resp;
-        
-        boolean  certa;
-        
-       do 
-       {
-        System.out.println("Em nossa lingua 'SE' corresponde a qual função abaixo (utilizando letras a letra correspondente)");
-        Collections.shuffle(ale);
-        respos.add( a + " Do");
-        respos.add( b + " While");
-        respos.add( c + " If");
-        respos.add( d + " For");
-        respos.add( e + " Else");
-        
-        System.out.println(respos);
-         resp = scan.next();
-
-         switch(resp)
-         {
-             case "c":
-             case "C":
-                 certa = true;
-                 System.out.println("Resposta Correta na tentativa:  ");    
-                 pontos = 100;
-                 
-                 break;
-                 
-             default: 
-                 certa = false;
-                 System.out.println("Resposta Errada. Tentativa: ");    
-         }    
-                 
-        
-        Collections.shuffle(ale);
-           
-        }while(resp.equals("e") || resp.equals("E")|| resp.equals("a")|| resp.equals("A")||
-               resp.equals("B")|| resp.equals("b") || resp.equals("d")|| resp.equals("D"));
-       
-         long end = System.currentTimeMillis();
-           
-         
-         
-         long t = tempo(start, end);
-         
-       
-        Ranking(nome,t, pontos);
-       
-       VerR();
+        return Aleatorio;  
     }
+     static String Perguntas (int perguntas)
+    {
+        String [] VetorDePerguntas = new String [pergu];
         
-        static long tempo(long start, long end)
+        VetorDePerguntas[0] = "Em ii, um bloco de código é:";
+        
+        VetorDePerguntas[1] = "Em ii, um bloco de código é:";
+        
+        VetorDePerguntas[2] = "Em ii, um bloco de código é:";
+        
+        VetorDePerguntas[3] = "Em ii, um bloco de código é:";
+         
+        
+        
+        return  VetorDePerguntas [perguntas];       
+    }
+    
+      static String [] Opcoes(int pergunta)
+    {
+        String [] vetorOpcao = new String [5];
+        
+        String [][] MatrizOpcao = new String [pergu] [5];
+        
+        MatrizOpcao [0][0] = "A) Tudo que está entre ( ) ";
+        MatrizOpcao [0][1] = "B) Tudo que está entre {} ";
+        MatrizOpcao [0][2] = "C) Tudo que está entre [ ] ";
+        MatrizOpcao [0][3] = "D) Tudo que está entre";
+        MatrizOpcao [0][4] = "E) Tudo que está no mesmo nível de indentação";
+        
+        MatrizOpcao [1][0] = "A) Tudo que está entre ( ) ";
+        MatrizOpcao [1][1] = "B) Tudo que está entre {} ";
+        MatrizOpcao [1][2] = "C) Tudo que está entre [ ] ";
+        MatrizOpcao [1][3] = "D) Tudo que está entre";
+        MatrizOpcao [1][4] = "E) Tudo que está no mesmo nível de indentação";
+        
+        
+        MatrizOpcao [2][0] = "A) Tudo que está entre ( ) ";
+        MatrizOpcao [2][1] = "B) Tudo que está entre {} ";
+        MatrizOpcao [2][2] = "C) Tudo que está entre [ ] ";
+        MatrizOpcao [2][3] = "D) Tudo que está entre";
+        MatrizOpcao [2][4] = "E) Tudo que está no mesmo nível de indentação";
+        
+        MatrizOpcao [3][0] = "A) Tudo que está entre ( ) ";
+        MatrizOpcao [3][1] = "B) Tudo que está entre {} ";
+        MatrizOpcao [3][2] = "C) Tudo que está entre [ ] ";
+        MatrizOpcao [3][3] = "D) Tudo que está entre";
+        MatrizOpcao [3][4] = "E) Tudo que está no mesmo nível de indentação";
+        
+ 
+        
+        for (int i = 0; i < 5; i++)  
+        {
+            vetorOpcao[i] = MatrizOpcao[pergunta][i]; 
+        }
+        
+         return vetorOpcao;       
+    }
+    static  String Correta (int pergunta, String opcao, int pontos)
+    {
+        String [] Corretas = new String [pergu];
+        
+        
+        Corretas[0] = "B";
+        Corretas[1] = "B";
+        Corretas[2] = "B";
+        Corretas[3] = "B";
+        
+    
+        if (opcao.equals(Corretas[pergunta])) 
+        {
+            
+            System.out.println("Parabens vc ganhou uns pontos, bora continuar \n");
+            pontos = pontos + 100;
+        }
+        else 
+        {
+            System.out.println("Que pena vc perdeu uns pontos ai \n");
+            pontos = pontos - 50;
+        }
+        
+        
+        return Corretas[pergunta];
+    }
+       
+    static long tempo(long start, long end)
         {
              long tempo = end - start;
              
@@ -184,77 +267,6 @@ public class rpg
         }
         
         
-        static ArrayList Aleatorio()
-        {
-                Random r = new Random();
-        
-        char a ;
-           char b;
-           char c;
-           char d;
-           char e;
-          
-            a = (char)(r.nextInt(5) + 'A');
-            b = (char)(r.nextInt(5) + 'A');
-            c = (char)(r.nextInt(5) + 'A');
-            d = (char)(r.nextInt(5) + 'A');
-            e = (char)(r.nextInt(5) + 'A');  
-           
-           
-      if (a == b || a == c || a == d || a == e) 
-       {
-            while(a == b || a == c || a == d || a == e)
-            {
-                a = (char)(r.nextInt(5) + 'A');
-            }
-       }
-           
-       if (b == a || b == c || b == d || b == e) 
-        {
-            while(b == a || b == c || b == d || b == e)
-            {
-                b = (char)(r.nextInt(5) + 'A');
-            }
-       }
-      
-       if (c == b || c == a || c == d || c == e) 
-       {
-            while(c == b || c == a || c == d || c == e)
-            {
-                c = (char)(r.nextInt(5) + 'A');
-            }
-       }
-           
-       if (d == b || d == c || d == a || d == e) 
-        {
-            while(d == b || d == c || d == a || d == e)
-            {
-                d = (char)(r.nextInt(5) + 'A');
-            }
-       }
-      
-      
-        if  (e == b || e == c || e == d || e == a) 
-        {
-            while(e == b || e == c || e == d || e == a)
-            {
-                e = (char)(r.nextInt(5) + 'A');
-            }
-       }
-      
-              ArrayList<Character> respos = new ArrayList<>();
- 
-              respos.add(a);
-              respos.add(b);
-              respos.add(c);
-              respos.add(d);
-              respos.add(e);
-        
-       
-            
-        return respos;
-        
-        }
         
         static void Ranking(String nome,long tempo, int pts)
         {
