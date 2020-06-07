@@ -176,11 +176,11 @@ public class rpg
          int pontos = 0;
          int pontuador = 0;
          int erro = 0;
-                    
-                    
+
          int [] aleatorio; // cria um vetor para pegar a resposta da função de Gerar Perguntas Aleatórias 
          aleatorio = GerarAleatorio(); // Pega a Reposta da função
         
+         
          long start = System.currentTimeMillis(); // inicia o Cronometro do Jogo
         
          for (int i = 0; i < aleatorio.length; i++)  // Para cada cada pergunta Aleatoria do tamanho total de perguntas(7) ele chama a pergunta montada e compara as respostas do usario 
@@ -283,7 +283,7 @@ public class rpg
         
         for (int i = 0; i < Aleatorio.length; i++) 
         {
-            Aleatorio[1] = i ; // preenche o vetor
+            Aleatorio[i] = i ; // preenche o vetor
         }
         
         for (int i = 0; i < 1000; i++)  //Quantidade de vezes que as perguntas serão embaralhadas 
@@ -291,10 +291,9 @@ public class rpg
             pos1 = gerar.nextInt(Aleatorio.length);
             pos2 = gerar.nextInt(Aleatorio.length);
             //troca 
-            auxilio = pos1; //guarda o valor da posição 1
+            auxilio = Aleatorio[pos1]; //guarda o valor da posição 1
             
             Aleatorio [pos1] = Aleatorio[pos2]; //troca o valor de 1 para 2
-            
             Aleatorio[pos2] = auxilio; //troca o valor de 2 para o valor que estava na 1
         }
         
@@ -373,7 +372,7 @@ public class rpg
         MatrizOpcao [3][3] = "D) static void Funcao(int n1, int n2)\n"
                 + "{\n"
                 + "int total = n1 + n2;\n"
-                + "}";
+                + "}\n";
         
         MatrizOpcao [3][4] = "E) static int Funcao(int n1, int n2)\n"
                 + "int total = n1 + n2;\n";
@@ -397,9 +396,6 @@ public class rpg
         MatrizOpcao [6][3] = "D) NEW";
         MatrizOpcao [6][4] = "E) Throw new argument execepcion";
         
-        
-    
- 
         
         for (int i = 0; i < 5; i++)   
         {
